@@ -1,0 +1,48 @@
+﻿@model CalendarWebApp.ViewModels.CalendarDeleteViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete events on @Model.Date.ToShortDateString()?</h3>
+<div>
+    @if (Model.Events!.Count == 0)
+    {
+        <p>No events were scheduled for this day.</p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Events!.First().Name)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var events in Model.Events!)
+                {
+                    <tr>
+                        <td>
+                            @events.Name
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@events.Id">Details</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <form asp-action="DeleteAll">
+        <input type="hidden" asp-for="@Model.Date" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+    
+</div>

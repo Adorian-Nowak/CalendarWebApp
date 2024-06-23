@@ -1,0 +1,78 @@
+﻿@model CalendarWebApp.ViewModels.CalendarCreateViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create a new event</h1>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Calendar!.Date" class="control-label"></label>
+                <input asp-for="Calendar!.Date" type="date" class="form-control" />
+                <span asp-validation-for="Calendar!.Date" class="text-danger"></span>
+                <br> 
+
+                <label asp-for="Event!.Time" class="control-label"></label>
+                <input id="time" asp-for="Event!.Time" type="time" class="form-control" />
+
+                <input id="AllDay" asp-for="AllDay" type="checkbox" onclick="myFunction()"/>
+                <label for="AllDay">All Day</label>
+
+                <script>
+                    let checkBox = document.getElementById("AllDay");
+
+                    let time = document.getElementById("time");
+
+                    let timeValue = time.value;
+
+                    function myFunction() {
+                        
+
+                        if (checkBox.checked) {
+                            time.disabled = true;
+                            timeValue = time.value;
+                            time.value = null;
+                            @{Model.AllDay = true;}
+                        }
+                        else {
+                            time.disabled = false;
+                            time.value = timeValue;
+                            @{Model.AllDay = false;}
+                        }
+                    }
+                </script>
+
+                <span asp-validation-for="Event!.Time" class="text-danger"></span>
+
+                
+                <br>
+
+                <label asp-for="Event!.Name" class="control-label"></label>
+                <input asp-for="Event!.Name" class="form-control" />
+                <span asp-validation-for="Event!.Name" class="text-danger"></span>
+                <br>
+
+                <label asp-for="Event!.Description" class="control-label"></label>
+                <input asp-for="Event!.Description" class="form-control" />
+                <span asp-validation-for="Event!.Description" class="text-danger"></span>
+                <br>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
